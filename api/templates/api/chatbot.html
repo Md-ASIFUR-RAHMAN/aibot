@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+
+    <style>
+body {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.container {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.container img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.container img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+.time-right {
+  float: right;
+  color: #3C0C0C;
+}
+
+.time-left {
+  float: left;
+  color: #3C0C0C;
+}
+</style>
+</head>
+<body>
+
+<!--    <h4>Human Qs : {{msg1}}</h4>-->
+<!--    <h4>Bot Reply : {{msg}}</h4>-->
+
+<!--<form method="post">-->
+<!--    {% csrf_token %}-->
+
+<!--        <input type="text" name="msg">-->
+
+<!--    <input type="submit">-->
+
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<h2>Chat Messages</h2>
+
+<div class="container">
+            <span class="time-left">You</span>
+  <h3>{{msg1}}</h3>
+
+</div>
+
+<div class="container darker">
+  <h3 class="time-right">{{msg}}</h3>
+    <span class="time-right">From Bot</span>
+
+</div>
+
+<div class="container">
+<form method="post">
+    {% csrf_token %}
+
+        <input type="text" name="msg">
+
+    <input type="submit">
+
+</form>
+    </div>
+
+
+</body>
+</html>

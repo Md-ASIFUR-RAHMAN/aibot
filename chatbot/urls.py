@@ -19,9 +19,14 @@ from api import views as v
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', v.reg),
+    path('', v.home),
+    path('register', v.reg),
     path('login', v.Login),
     path('faq/<str:pk>', v.faq),
     path('chatbot/<str:pk>', v.chatbot),
+    path('dashboard/<str:pk>', v.dashboard),
+    path('update/<str:pk>', v.update),
+    path('delete/<str:pk>', v.delete),
+    path('logout', v.Logout),
 
 ]

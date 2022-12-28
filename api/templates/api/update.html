@@ -1,0 +1,179 @@
+{% extends 'user_index.html' %}
+{% load static %}
+
+{% block body %}
+
+
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--<table>-->
+<!--  <th>QUESTION</th>-->
+<!--  <th>Answer</th>-->
+
+<!--  	{% for i in user %}-->
+<!--          {% if forloop.counter < 2 %}-->
+
+<!--  <tr>-->
+<!--    <td>{{i.qs1}}</td>-->
+<!--    <td>{{i.ans1}}</td>-->
+<!--  </tr>-->
+<!--    <tr>-->
+<!--    <td>{{i.qs2}}</td>-->
+<!--    <td>{{i.ans2}}</td>-->
+
+<!--  </tr>-->
+
+<!--      <tr>-->
+<!--    <td>{{i.qs3}}</td>-->
+<!--    <td>{{i.ans3}}</td>-->
+
+<!--  </tr>-->
+
+<!--      <tr>-->
+<!--    <td>{{i.qs4}}</td>-->
+<!--    <td>{{i.ans4}}</td>-->
+
+<!--  </tr>-->
+
+<!--      <tr>-->
+<!--    <td>{{i.qs5}}</td>-->
+<!--    <td>{{i.ans5}}</td>-->
+
+<!--  </tr>-->
+<!--          {% endif %}-->
+<!--    	{% endfor %}-->
+
+
+
+<!--</table>-->
+
+
+
+  	{% for i in user %}
+          {% if forloop.counter < 2 %}
+
+<div class="container2">
+  <form method="post" >
+      {% csrf_token %}
+
+      <div class="row">
+    <div class="col-25">
+        <label for="Question1">Question 1 : </label>
+    </div>
+    <div class="col-75">
+      <input type="text" name="qs1" value= "{{i.qs1}}">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="Answer1">Answer 1 : </label>
+    </div>
+    <div class="col-75">
+      <input type="text" name="ans1" maxlength="255"  value="{{i.ans1}}"}>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="Question2">Question 2 : </label>
+    </div>
+    <div class="col-75">
+      <input type="text" name="qs2" value="{{i.qs2}}"  >
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="Answer2">Answer 2 :</label>
+    </div>
+    <div class="col-75">
+      <input type="text" name="ans2" value="{{i.ans2}}" >
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="Question3">Question 3 : </label>
+    </div>
+    <div class="col-75">
+      <input type="text" name="qs3" value="{{i.qs3}}" >
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="Answer3">Answer 3 :</label>
+    </div>
+    <div class="col-75">
+      <input type="text" name="ans3" value="{{i.ans3}}" >
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="Question4">Question 4 : </label>
+    </div>
+    <div class="col-75">
+      <input type="text" name="qs4" value="{{i.qs4}}" >
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="Answer4">Answer 4 :</label>
+    </div>
+    <div class="col-75">
+      <input type="text" name="ans4" value="{{i.ans4}}">
+    </div>
+  </div>
+
+
+        <div class="row">
+    <div class="col-25">
+      <label for="Question5">Question 5 : </label>
+    </div>
+    <div class="col-75">
+      <input type="text" name="qs5" value="{{i.qs5}}" >
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-25">
+      <label for="Answer5">Answer 5 :</label>
+    </div>
+    <div class="col-75">
+      <input type="text" name="ans5" value="{{i.ans5}}">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <input type="submit" value="Update">
+    <button><a href="/delete/{{i.Idd}}">Delete</a></button>
+
+  </div>
+
+
+  </form>
+</div>
+
+          {% endif %}
+    	{% endfor %}
+
+
+
+</body>
+</html>
+
+{% endblock %}

@@ -32,9 +32,17 @@ def reg(request):
         Gender = request.POST['gender']
         Password = request.POST['password']
 
-        Registration.objects.create(Name=Name,Phone = Phone, Email= Email, Gender = Gender, Password = Password)
+        if Registration.objects.filter(Email=Email) or  Registration.objects.filter(Phone=Phone):
+            context = {
+                'msg' : 'Email or Phone number already Exist'
+            }
+            return render(request, 'api/register.html',context)
 
-        return redirect('/login')
+        else:
+
+            Registration.objects.create(Name=Name,Phone = Phone, Email= Email, Gender = Gender, Password = Password)
+
+            return redirect('/login')
 
 def Login(request):
     if request.method == "GET":
@@ -52,73 +60,84 @@ def Login(request):
 
                 return redirect('/dashboard/{}'.format(idd))
             else:
-                return redirect('/login')
+                context = {
+                    'msg' : 'Password was Incorrect'
+                }
+                return render(request,'api/login.html',context)
         else:
             return redirect('/register')
 
 
 def dashboard(request,pk):
-    pk = decode(pk)
-    if request.method == "GET":
+    if len(list(pk)) == 16:
+        pk = decode(pk)
+        if request.method == "GET":
 
-        name = Registration.objects.filter(id = pk)
-        context = {
-            'name' : name
-        }
-        return render(request, 'api/Dashboard.html',context)
+            name = Registration.objects.filter(id = pk)
+            context = {
+                'name' : name
+            }
+            return render(request, 'api/Dashboard.html',context)
 
-    if request.method=="POST":
-        bol_values = request.POST.getlist('ai')
-        if bol_values[0] == 'Chatbot':
+        if request.method=="POST":
+            bol_values = request.POST.getlist('ai')
+            if bol_values[0] == 'Chatbot':
 
+                if FAQ.objects.filter(Idd = pk):
+                    pk = encode(pk)
+                    return redirect('/update/{}'.format(pk))
+                else:
+                    pk = encode(pk)
+                    return redirect('/faq/{}'.format(pk))
+
+            if bol_values[0] == 'Roomchat':
+                return redirect('/secret/')
+            else:
+                return HttpResponse("Under constraction")
+    else:
+        return redirect('/login')
+
+# @login_required(login_url='/login')
+def faq(request,pk):
+    if len(list(pk)) == 16:
+        pk = decode(pk)
+        if request.method == "GET":
+
+            name = Registration.objects.filter(id = pk)
+            context = {
+                'name' : name
+            }
+
+            return render(request, 'api/faq.html',context)
+
+        if request.method=="POST":
             if FAQ.objects.filter(Idd = pk):
                 pk = encode(pk)
                 return redirect('/update/{}'.format(pk))
             else:
-                pk = encode(pk)
-                return redirect('/faq/{}'.format(pk))
-
-        else:
-            return HttpResponse("Under constraction")
-
-# @login_required(login_url='/login')
-def faq(request,pk):
-    pk = decode(pk)
-    if request.method == "GET":
-
-        name = Registration.objects.filter(id = pk)
-        context = {
-            'name' : name
-        }
-
-        return render(request, 'api/faq.html',context)
-
-    if request.method=="POST":
-        if FAQ.objects.filter(Idd = pk):
-            pk = encode(pk)
-            return redirect('/update/{}'.format(pk))
-        else:
 
 
-            qs1 = request.POST['qs1']
-            qs2 = request.POST['qs2']
-            qs3 = request.POST['qs3']
-            qs4 = request.POST['qs4']
-            qs5 = request.POST['qs5']
+                qs1 = request.POST['qs1']
+                qs2 = request.POST['qs2']
+                qs3 = request.POST['qs3']
+                qs4 = request.POST['qs4']
+                qs5 = request.POST['qs5']
 
 
-            ans1 = request.POST['ans1']
-            ans2 = request.POST['ans2']
-            ans3 = request.POST['ans3']
-            ans4 = request.POST['ans4']
-            ans5 = request.POST['ans5']
+                ans1 = request.POST['ans1']
+                ans2 = request.POST['ans2']
+                ans3 = request.POST['ans3']
+                ans4 = request.POST['ans4']
+                ans5 = request.POST['ans5']
 
-            FAQ.objects.create(Idd = pk,qs1=qs1,qs2 = qs2, qs3 = qs3, qs4 = qs4, qs5 = qs5 , ans1 = ans1 , ans2 = ans2 , ans3 = ans3, ans4 = ans4, ans5 = ans5)
-            code = encode(pk)
-            context = {
-                'code' : code
-            }
-            return render(request,'api/code.html',context)
+                FAQ.objects.create(Idd = pk,qs1=qs1,qs2 = qs2, qs3 = qs3, qs4 = qs4, qs5 = qs5 , ans1 = ans1 , ans2 = ans2 , ans3 = ans3, ans4 = ans4, ans5 = ans5)
+                code = encode(pk)
+                context = {
+                    'code' : code
+                }
+                return render(request,'api/code.html',context)
+    else:
+        return redirect('/login')
 
 def chatbot(request,pk):
     df = pd.DataFrame()
@@ -205,11 +224,11 @@ def update(request,pk):
 
             i.save()
 
-
+        code = encode(pk)
         context = {
-            'user': user
+            'code': code
         }
-        return render(request, 'api/update.html', context)
+        return render(request, 'api/code.html', context)
 
 def delete(request,pk):
 
